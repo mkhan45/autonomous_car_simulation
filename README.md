@@ -8,6 +8,7 @@ Next, run these commands:
 - `poetry shell`
     - this puts you in a new shell with a different python environment.
     - you can exit the shell by pressing Ctrl-C, but make sure to do all development in the shell.
+- `poetry update` (again)
 
 # Autonomous Car Simulation (in progress)
 
