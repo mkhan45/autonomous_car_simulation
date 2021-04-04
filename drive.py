@@ -86,13 +86,14 @@ def telemetry(sid, data):
 
 @sio.on('connect')
 def connect(sid, environ):
+    print("POGCHAMP POGCHAMP")
     print("connect ", sid)
-    send_control(0, 0)
+    send_control(steering_angle=0, throttle=0)
 
 
 def send_control(steering_angle, throttle):
     sio.emit(
-        "steer",
+        event="steer",
         data={
             'steering_angle': steering_angle.__str__(),
             'throttle': throttle.__str__()
@@ -104,6 +105,8 @@ if __name__ == '__main__':
     
     # wrap Flask application with engineio's middleware
     app = socketio.Middleware(sio, app)
+
+    print(app)
 
     # deploy as an eventlet WSGI server
     eventlet.wsgi.server(eventlet.listen(('', 4567)), app)

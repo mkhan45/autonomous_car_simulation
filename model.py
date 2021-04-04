@@ -210,6 +210,7 @@ class Model():
 
                 # print statistics
                 if i % 5 == 4:    # print every 5 mini-batches                    
+                    print(outputs[0].reshape(-1, 10, 3))
                     print('[%d, %5d] loss: %.6f' % (epoch + 1, i + 1, running_loss / (i+1)))
 
             train_loss = running_loss / len(self.trainloader) 
