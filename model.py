@@ -49,6 +49,7 @@ class Net(nn.Module):
         self.fc4 = nn.Linear(50, 30)
 
     def forward(self, x):
+        print("sup gamers")
         x = F.relu(self.conv1(x))           
         x = F.relu(self.conv2(x))
         x = F.relu(self.conv3(x))

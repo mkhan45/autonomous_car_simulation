@@ -71,6 +71,9 @@ def telemetry(sid, data):
 
     #    print("waypoints_string");
     #    print(waypoints_string);
+
+
+        waypoints_string = "[2 0 50 10 0 200 20 0 300 40 0 400 50 0 500]";
         send_control(steering_angle, throttle,waypoints_string);
 
 @sio.on('connect')
