@@ -62,41 +62,51 @@ def telemetry(sid, data):
         waypoints = model.predict(image, preloaded=True); # x,y,z,x,y,z,x,y,z...
         
 
-
+        print("waypoints:");
+        print(waypoints);
         '''
         NOTE: Potential one-off errors here!
         '''
 
-
+'''
         NUM_VALS_IN_WAYPNT = 3;
 
         waypoints_string = "";
         #parse waypoints to a string
+
+        
         for i in range(0,len(waypoints/NUM_VALS_IN_WAYPNT)): # "x,y,z"
             waypoints_string = waypoints_string + ",";
 
             for a in range(0,NUM_VALS_IN_WAYPNT):
-                waypoints_string = waypoints_string + str(waypoints[NUM_VALS_IN_WAYPNT*i+a]) + " "; # replace the space with a comma to do x,y,z,x,y,z,x,y,z
-
-            
+                waypoints_string = waypoints_string + waypoints[0][NUM_VALS_IN_WAYPNT*i+a] + " "; # replace the space with a comma to do x,y,z,x,y,z,x,y,z
+   '''
         # waypoints_string should equal ",x y z, x y z, x y z"  note the comma at the beginning which we take out in the send_control call
-        
+       
 
-        send_control(steering_angle, throttle);
+        w_array = waypoints.detach().numpy();
+        waypoints_string = w_array[0];
+        waypoints_string = waypoints_string.__str__();
+
+    #    print("waypoints_string");
+    #    print(waypoints_string);
+        send_control(steering_angle, throttle,waypoints_string);
 
 @sio.on('connect')
 def connect(sid, environ):
-    print("POGCHAMP POGCHAMP")
+    #print("POGCHAMP POGCHAMP")
+    print("I hear you Mav, connection is open.");
     print("connect ", sid)
-    send_control(steering_angle=0, throttle=0)
+    send_control(steering_angle=0, throttle=0, waypoints_string="[0 1 0 0 2 0]")
 
 
-def send_control(steering_angle, throttle):
+def send_control(steering_angle, throttle,waypoints_string):
     sio.emit(
         event="steer",
         data={
             'steering_angle': steering_angle.__str__(),
-            'throttle': throttle.__str__()
+            'throttle': throttle.__str__(),
+            'waypoints': waypoints_string
         },
         skip_sid=True)
 
