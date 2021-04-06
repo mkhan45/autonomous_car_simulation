@@ -84,7 +84,7 @@ class Model():
         cfg.test_epochs = 1
         cfg.train_epochs = 100
         cfg.optimizer = 'adam'
-        cfg.cuda = True
+        cfg.cuda = False
 
         self.cfg = cfg
         self.log = Logger(cfg)
