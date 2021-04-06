@@ -54,6 +54,8 @@ class SimulationDataset(Dataset):
         # of each waypoint in our CSV file (written in from Unity)
         self.waypoints = np.array(self.data.iloc[start:end,WAYPOINT_OFFSET:WAYPOINT_END])
 
+        print(self.waypoints);
+
         
 
     def __getitem__(self, index):
