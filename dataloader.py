@@ -39,7 +39,7 @@ class SimulationDataset(Dataset):
         end = int(start + 4/5 * len(self.data))
 
         WAYPOINT_COUNT = 30
-        WAYPOINT_OFFSET = 7
+        WAYPOINT_OFFSET = 8
         WAYPOINT_END = WAYPOINT_OFFSET + WAYPOINT_COUNT 
 
 

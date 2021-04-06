@@ -66,14 +66,20 @@ def telemetry(sid, data):
        
 
         w_array = waypoints.detach().numpy();
-        waypoints_string = w_array[0];
-        waypoints_string = waypoints_string.__str__();
+        waypoints_string = "";
+        for x in w_array[0]:
+            waypoints_string += ",";
+            waypoints_string += x.__str__();
+            
+        
 
-    #    print("waypoints_string");
-    #    print(waypoints_string);
+       # waypoints_string = waypoints_string.__str__();
+        waypoints_string = waypoints_string[1:];
+        print("waypoints_string");
+        print(waypoints_string);
 
 
-       # waypoints_string = "[2 0 50 10 0 200 20 0 300 40 0 400 50 0 500]"; # test points 
+       # waypoints_string = "[2, 0, 50, 10, 0, 200, 20, 0, 300, 40, 0, 400, 50, 0, 500]"; # test points 
         send_control(steering_angle, throttle,waypoints_string);
 
 @sio.on('connect')
@@ -81,7 +87,7 @@ def connect(sid, environ):
     #print("POGCHAMP POGCHAMP")
     print("I hear you Mav, connection is open.");
     print("connect ", sid)
-    send_control(steering_angle=0, throttle=0, waypoints_string="[0 1 0 0 2 0]")
+    send_control(steering_angle=0, throttle=0, waypoints_string="[0,0,10,0,0,20]")
 
 
 def send_control(steering_angle, throttle,waypoints_string):
