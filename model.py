@@ -82,7 +82,7 @@ class Model():
         cfg.batch_size = 100
         cfg.test_rate = 2
         cfg.test_epochs = 1
-        cfg.train_epochs = 100
+        cfg.train_epochs = 50
         cfg.optimizer = 'adam'
         cfg.cuda = True and torch.cuda.is_available()
 
