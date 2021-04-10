@@ -28,7 +28,7 @@ def _deactivate(args):
 _deactivate(["nondestructive"])
 aliases["deactivate"] = _deactivate
 
-$VIRTUAL_ENV = r"/home/fish/projects/autonomous_car_simulation"
+$VIRTUAL_ENV = r"/home/arefmalek/AMPS/model"
 
 $_OLD_VIRTUAL_PATH = $PATH
 $PATH = $PATH[:]

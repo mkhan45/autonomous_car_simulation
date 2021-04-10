@@ -38,32 +38,25 @@ class SimulationDataset(Dataset):
         start = int(random.random() * 1/5 * len(self.data))
         end = int(start + 4/5 * len(self.data))
 
-        # if (set == "test"):
-        #     start = end 
-        #     end = len(self.data)
+        WAYPOINT_COUNT = 30
+        WAYPOINT_OFFSET = 8
+        WAYPOINT_END = WAYPOINT_OFFSET + WAYPOINT_COUNT 
 
+
+        if (set == "test"):
+            start = end 
+            end = len(self.data)
+
+        # Just know that these are the paths to the image we will open with PIL 
         self.image_paths = np.array(self.data.iloc[start:end, 0:3])
-        steering_angles = np.array(self.data.iloc[start:end, 3]) 
-        speeds = np.array(self.data.iloc[start:end, 6])
-        speeds /= speeds.max()
 
-        # targets = [[angle, speed]
-        #            [angle, speed]
-        #            [angle, speed]
-        #                  ...     ]
-        self.targets = np.array([steering_angles, speeds]).transpose()
+        # these are 30 comma separated values that are the x, y, z coordinates
+        # of each waypoint in our CSV file (written in from Unity)
+        self.waypoints = np.array(self.data.iloc[start:end,WAYPOINT_OFFSET:WAYPOINT_END])
 
-        # Preprocess and filter data
-        # self.targets = gaussian_filter1d(self.targets[:,0], 2)      
+        print(self.waypoints);
+
         
-        bias = 0.00
-        # self.image_paths = [image_path for image_path, target in zip(self.image_paths, self.targets) if abs(target) > bias]
-        # self.targets = [target for target in self.targets if abs(target) > bias]
-        # old pgebert code which is terribly slow but probably doesn't make a difference unless dataset is very large
-
-        good_rows = abs(self.targets[:,0]) > bias
-        self.image_paths = self.image_paths[good_rows]
-        self.targets = self.targets[good_rows]
 
     def __getitem__(self, index):
 
@@ -71,9 +64,11 @@ class SimulationDataset(Dataset):
         image_paths = self.image_paths[index]
         # Open image
         image = [Image.open(image_paths[i]) for i in range(3)]
-        target = self.targets[index]     
 
-        sample = {'image': image, 'target': target}
+        # Getting the 30 waypoint associated with the image
+        waypoints = self.waypoints[index]     
+
+        sample = {'image': image, 'target': waypoints}
 
         # If the transform variable is not empty
         # then it applies the operations in the transforms with the order that it is created.
@@ -100,12 +95,13 @@ if  __name__ =='__main__':
                 utils.ToTensor(),
                 utils.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
             ]))
+    print(dataset.__getitem__(0)[1])
     print(dataset.__len__())
     print(dataset.__getitem__(0)[0].size())
 
-    for c in range(3):
-        for i in range(dataset.__len__()):
-            print(dataset.__getitem__(i)[c].mean())
-            print(dataset.__getitem__(i)[c].std())
+#    for c in range(3):
+#        for i in range(dataset.__len__()):
+#            print(dataset.__getitem__(i)[c].mean())
+#            print(dataset.__getitem__(i)[c].std())
     # print(dataset.__getitem__(0))
     # print(len(dataset.__get_annotations__()))

@@ -1,4 +1,4 @@
-#!/home/fish/projects/autonomous_car_simulation/bin/python
+#!/home/arefmalek/AMPS/model/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys

@@ -1,3 +1,10 @@
+# trying to reduce the amount of bloat code pushed to server
+share/
+
+# vscode and vim stuff
+.vscode/
+.vim/
+
 # Data 
 /IMG
 *.pth
