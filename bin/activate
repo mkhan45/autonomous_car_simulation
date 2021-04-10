@@ -46,10 +46,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV='/home/fish/projects/autonomous_car_simulation'
-if ([ "$OSTYPE" = "cygwin" ] || [ "$OSTYPE" = "msys" ]) && $(command -v cygpath &> /dev/null) ; then
-    VIRTUAL_ENV=$(cygpath -u "$VIRTUAL_ENV")
-fi
+VIRTUAL_ENV='/home/arefmalek/AMPS/model'
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

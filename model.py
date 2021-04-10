@@ -4,7 +4,7 @@ import torch
 import torchvision
 from torchvision import datasets, models, transforms
 
-from torch.autograd import Variable
+from torch.autograd import Variable 
 import torch.nn as nn
 import torch.nn.functional as F
 
@@ -43,11 +43,10 @@ class Net(nn.Module):
         self.conv5 = nn.Conv2d(64, 64, 3)
         self.pool = nn.MaxPool2d(2, 2)
         self.drop = nn.Dropout(p=0.5)
-        self.fc1 = nn.Linear(64 * 3 * 13, 300)
-        self.fc2 = nn.Linear(300, 150)
-        self.fc3 = nn.Linear(150, 50)
-        self.fc4 = nn.Linear(50, 10)
-        self.fc5 = nn.Linear(10, 2)
+        self.fc1 = nn.Linear(64 * 3 * 13, 600)
+        self.fc2 = nn.Linear(600, 300)
+        self.fc3 = nn.Linear(300, 100)
+        self.fc4 = nn.Linear(100, 30)
 
     def forward(self, x):
         x = F.relu(self.conv1(x))           
@@ -61,8 +60,7 @@ class Net(nn.Module):
         x = F.relu(self.fc1(x))
         x = F.relu(self.fc2(x))
         x = F.relu(self.fc3(x))
-        x = F.relu(self.fc4(x))
-        x = self.fc5(x)
+        x = self.fc4(x)
         return x
 
 class Model():    
@@ -84,9 +82,9 @@ class Model():
         cfg.batch_size = 100
         cfg.test_rate = 2
         cfg.test_epochs = 1
-        cfg.train_epochs = 1000
+        cfg.train_epochs = 50
         cfg.optimizer = 'adam'
-        cfg.cuda = False
+        cfg.cuda = True
 
         self.cfg = cfg
         self.log = Logger(cfg)
@@ -102,7 +100,6 @@ class Model():
     ########################################################################
     # Load data
     # ^^^^^^^^^^^^^^^^^^^^
-
     def loadData(self):       
         
         trainset = SimulationDataset("train", transforms=transforms.Compose([                 
@@ -145,7 +142,9 @@ class Model():
 
     # Load model from file system
     def loadModel(self):
-        self.net.load_state_dict(torch.load('model.pth'))
+        if os.path.isfile("./model.pth"):
+            self.net.load_state_dict(torch.load('model.pth'))
+            print("Weights loaded!")
 
 
     ########################################################################
@@ -154,6 +153,8 @@ class Model():
     def train(self):
 
         test_res, tmp_res, best_epoch = 0, 0, 0
+
+        # load model if we got it (probably not)
         self.loadModel()
 
         #set train mode
@@ -209,6 +210,7 @@ class Model():
 
                 # print statistics
                 if i % 5 == 4:    # print every 5 mini-batches                    
+                    print(outputs[0].reshape(-1, 10, 3))
                     print('[%d, %5d] loss: %.6f' % (epoch + 1, i + 1, running_loss / (i+1)))
 
             train_loss = running_loss / len(self.trainloader) 

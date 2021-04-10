@@ -1,5 +1,6 @@
 {
   "python.linting.pylintEnabled": true,
   "python.linting.mypyEnabled": false,
-  "python.linting.enabled": true
+  "python.linting.enabled": true,
+  "python.pythonPath": "/home/fish/.cache/pypoetry/virtualenvs/autonomous-car-simulation-S9gbzxwf-py3.9/bin/python"
 }
