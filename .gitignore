@@ -7,7 +7,7 @@ share/
 
 # Data 
 /IMG
-#*.pth
+*.pth
 log.json
 plot.html
 *.pptx

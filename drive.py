@@ -64,6 +64,8 @@ def telemetry(sid, data):
         
         # waypoints_string should equal ",x y z, x y z, x y z"  note the comma at the beginning which we take out in the send_control call
        
+        if waypoints.is_cuda:
+            waypoints = waypoints.cpu()
 
         w_array = waypoints.detach().numpy();
         waypoints_string = "";
